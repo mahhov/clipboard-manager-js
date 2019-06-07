@@ -1,5 +1,4 @@
 const path = require('path');
-const {app} = require('electron');
 const {TrayHelper, ClipboardListener, ShortcutListener} = require('js-desktop-base');
 const ViewHandle = require('./ClipboardManagerViewHandle.js');
 
