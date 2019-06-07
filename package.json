@@ -1,13 +1,10 @@
 {
   "name": "clipboard-manager-js",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "main": "src/clipboardManager/clipboardManager.js",
   "scripts": {
     "start": "electron .",
     "build": "rm -rf dist; electron-builder .",
-    "linux-desktop-icon-workaround": "mv ~/.local/share/icons/hicolor/0x0/apps/appimagekit-clipboard-manager-js.png ~/.local/share/icons/hicolor/256x256/apps/ && update-icon-caches /usr/share/icons/*",
-    "create-icon": "f() { cd resources/icons; inkscape -z -e $1.png -h 256 $1.svg; convert $1.png -gravity center -background '#0000' -extent 256x256 $1-256.png; }; f",
-    "create-icons": "npm run create-icon fa-copy-regular",
     "refresh-gmail-tokenn": "node src/poePricer/unlocker/refreshGmailToken"
   },
   "keywords": [
@@ -20,7 +17,7 @@
   "dependencies": {
     "bs-better-stream": "^1.9.0",
     "googleapis": "^38.0.0",
-    "js-desktop-base": "^1.0.0"
+    "js-desktop-base": "^2.3.8"
   },
   "devDependencies": {
     "electron": "^5.0.0-beta.6",
