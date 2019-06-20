@@ -5,6 +5,7 @@
   "scripts": {
     "start": "electron .",
     "build": "rm -rf dist; electron-builder .",
+    "ship": "build --win --linux -p always",
     "refresh-gmail-tokenn": "node src/poePricer/unlocker/refreshGmailToken"
   },
   "keywords": [
@@ -41,7 +42,17 @@
     ],
     "icon": "./resources/icons/fa-copy-regular-256.png",
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "publish": {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    },
+    "win": {
+      "publish": {
+        "provider":  "github",
+        "releaseType": "release"
+      }
     }
   }
 }
