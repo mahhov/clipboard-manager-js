@@ -5,8 +5,7 @@
   "scripts": {
     "start": "electron .",
     "build": "rm -rf dist; electron-builder .",
-    "ship": "build --win --linux -p always",
-    "refresh-gmail-tokenn": "node src/poePricer/unlocker/refreshGmailToken"
+    "ship": "build --win --linux -p always"
   },
   "keywords": [
     "clipboard",
