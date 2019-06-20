@@ -5,7 +5,7 @@
   "scripts": {
     "start": "electron .",
     "build": "rm -rf dist; electron-builder .",
-    "ship": "build --win --linux -p always"
+    "ship": "git push && build --win --linux -p always"
   },
   "keywords": [
     "clipboard",
