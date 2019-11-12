@@ -1,6 +1,6 @@
 {
   "name": "clipboard-manager-js",
-  "version": "1.0.3",
+  "version": "1.5.0",
   "main": "src/clipboardManager/clipboardManager.js",
   "scripts": {
     "start": "electron .",
@@ -49,7 +49,7 @@
     },
     "win": {
       "publish": {
-        "provider":  "github",
+        "provider": "github",
         "releaseType": "release"
       }
     }
