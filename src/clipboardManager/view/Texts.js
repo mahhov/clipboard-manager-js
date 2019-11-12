@@ -2,37 +2,57 @@ const SELECTED_TEXT_COLOR = '#fff';
 const SELECTED_BG_COLOR = '#646496';
 
 class Texts {
-	constructor(size, previewSize) {
-		this.size = size;
+	constructor(displaySize, previewSize, historySize) {
+		this.displaySize = displaySize;
 		this.previewSize = previewSize;
+		this.historySize = historySize;
 		this.texts = [];
 		this.selected = 0;
+		this.searchText_ = '';
+		this.filteredTexts = [];
 	}
 
 	addFront(text) {
-		let index = this.texts.indexOf(text);
-		if (index !== -1)
-			this.remove(index);
+		this.remove(text);
 		this.texts.unshift(text);
-		if (this.texts.length > this.size)
+		if (this.texts.length > this.historySize)
 			this.texts.pop();
-	}
-
-	remove(index) {
-		this.texts.splice(index, 1);
+		this.filterTexts();
 	}
 
 	removeSelected() {
-		this.remove(this.selected);
-		this.selected = Math.max(Math.min(this.selected, this.texts.length - 1), 0);
+		this.remove(this.selectedText);
+		this.filterTexts();
+		this.boundSelection();
+	}
+
+	remove(text) {
+		let index = this.texts.indexOf(text);
+		if (index !== -1)
+			this.texts.splice(index, 1);
+	}
+
+	get searchText() {
+		return this.searchText_;
+	}
+
+	set searchText(value) {
+		this.searchText_ = value;
+		this.filterTexts();
+		this.boundSelection();
+	}
+
+	filterTexts() {
+		this.filteredTexts = this.texts.filter(text =>
+			text.toLowerCase().includes(this.searchText.toLowerCase()));
 	}
 
 	selectPrev() {
-		this.selected = (--this.selected + this.texts.length) % this.texts.length;
+		this.selected = (--this.selected + this.size) % this.size;
 	}
 
 	selectNext() {
-		this.selected = ++this.selected % this.texts.length;
+		this.selected = ++this.selected % this.size;
 	}
 
 	selectFirst() {
@@ -40,25 +60,35 @@ class Texts {
 	}
 
 	selectLast() {
-		this.selected = this.texts.length - 1;
+		this.selected = this.size - 1;
 	}
 
-	getSelected() {
-		return this.texts[this.selected];
+	boundSelection() {
+		this.selected = Math.max(Math.min(this.selected, this.size - 1), 0);
+	}
+
+	get size() {
+		return Math.min(this.filteredTexts.length, this.displaySize);
+	}
+
+	get selectedText() {
+		return this.filteredTexts[this.selected];
 	}
 
 	// returns [{text, textColor?, backColor?}]
 	getLinesForDisplay() {
-		let lines = Array(this.size + this.previewSize + 1).fill({text: ''});
+		let lines = Array(this.displaySize + 1 + this.previewSize + 1).fill({text: ''});
 
-		if (this.texts.length === 0)
+		Texts.setLines(lines, [{text: this.searchText}], this.displaySize + 1 + this.previewSize);
+
+		if (!this.filteredTexts.length)
 			return lines;
 
-		Texts.setLines(lines, this.texts.map(text => ({text})));
+		Texts.setLines(lines, this.filteredTexts.slice(0, this.size).map(text => ({text})));
 		lines[this.selected].textColor = SELECTED_TEXT_COLOR;
 		lines[this.selected].backColor = SELECTED_BG_COLOR;
 
-		let selectedLines = this.getSelected().split('\n');
+		let selectedLines = this.selectedText.split('\n');
 		if (selectedLines.length > this.previewSize) {
 			selectedLines = selectedLines.slice(0, this.previewSize - 1);
 			selectedLines.push('...');

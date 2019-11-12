@@ -4,7 +4,7 @@ const Texts = require('./Texts');
 const $ = document.querySelector.bind(document);
 const $c = document.createElement.bind(document);
 
-let texts = new Texts(10, 10);
+let texts = new Texts(10, 10, 200);
 
 ipc.on('window-command', (_, command) => {
 	console.log('received', command);
@@ -13,6 +13,7 @@ ipc.on('window-command', (_, command) => {
 			texts.addFront(command.text);
 			break;
 		case 'open':
+			texts.searchText = '';
 			texts.selectFirst();
 			updateView();
 			break;
@@ -37,36 +38,38 @@ let updateView = () => {
 	})
 };
 
-document.body.addEventListener('keydown', ({code}) => {
-	switch (code) {
+document.body.addEventListener('keydown', e => {
+	switch (e.key) {
 		case 'ArrowLeft':
 			texts.selectFirst();
-			updateView();
 			break;
 		case 'ArrowUp':
 			texts.selectPrev();
-			updateView();
 			break;
 		case 'ArrowRight':
 			texts.selectLast();
-			updateView();
 			break;
 		case 'ArrowDown':
 			texts.selectNext();
-			updateView();
 			break;
 		case 'Delete':
 		case 'Backspace':
-			texts.removeSelected();
-			updateView();
+			if (e.shiftKey)
+				texts.removeSelected();
+			else
+				texts.searchText = texts.searchText.slice(0, -1);
 			break;
 		case 'Enter':
-			ipcSend({name: 'close', selected: texts.getSelected()});
+			ipcSend({name: 'close', selected: texts.selectedText});
 			break;
 		case 'Escape':
 			ipcSend({name: 'close'});
 			break;
+		default:
+			if (e.key.length === 1)
+				texts.searchText += e.key;
 	}
+	updateView();
 });
 
 let ipcSend = message => ipc.send('window-request', message);
