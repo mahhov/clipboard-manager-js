@@ -94,13 +94,14 @@ class Texts {
 			selectedLines.push('...');
 		}
 		Texts.setLines(lines, selectedLines.map(text =>
-			({text, textColor: SELECTED_BG_COLOR, backColor: SELECTED_TEXT_COLOR})), this.size + 1);
+			({text, textColor: SELECTED_BG_COLOR, backColor: SELECTED_TEXT_COLOR})), this.displaySize + 1);
 
 		return lines;
 	}
 
 	static setLines(lines, values, start = 0) {
-		values.forEach((value, i) => lines[i + start] = value);
+		values.forEach((value, i) =>
+			lines[i + start] = {...value, text: value.text.substring(0, 500)});
 	}
 }
 
