@@ -16,13 +16,15 @@ If these are not available, most of this will still work, except pressing `enter
 
 `up/down` to scroll selection.
 
-`left/right` to select the first/lsat selection.
+`left/right` to select the first/last selection.
 
 `enter` to close the popup and paste.
 
 `esc` to close the popup without pasting.
 
-`del/backspace` to remove the selected line.
+`shift + del/backspace` to remove the selected line.
+
+Type to filter.
 
 ## screenshots
 
