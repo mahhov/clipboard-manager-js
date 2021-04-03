@@ -20,6 +20,11 @@ class Texts {
 		this.filterTexts();
 	}
 
+	squashFront2() {
+		this.addFront(`${this.texts[1]}\n${this.texts[0]}`);
+		return this.texts[0];
+	}
+
 	removeSelected() {
 		this.remove(this.selectedText);
 		this.filterTexts();

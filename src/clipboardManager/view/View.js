@@ -6,11 +6,16 @@ const $c = document.createElement.bind(document);
 
 let texts = new Texts(10, 10, 200);
 
+let ipcSend = message => ipc.send('window-request', message);
+
 ipc.on('window-command', (_, command) => {
 	console.log('received', command);
 	switch (command.name) {
 		case 'addText':
 			texts.addFront(command.text);
+			break;
+		case 'squashFront2':
+			ipcSend({name: 'squash', squashedText: texts.squashFront2()});
 			break;
 		case 'open':
 			texts.searchText = '';
@@ -71,5 +76,3 @@ document.body.addEventListener('keydown', e => {
 	}
 	updateView();
 });
-
-let ipcSend = message => ipc.send('window-request', message);

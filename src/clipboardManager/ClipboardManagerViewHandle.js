@@ -1,5 +1,5 @@
 const path = require('path');
-const {ViewHandle} = require('js-desktop-base');
+const {ViewHandle, XPromise} = require('js-desktop-base');
 
 class ClipboardManagerViewHandle extends ViewHandle {
 	constructor() {
@@ -11,7 +11,7 @@ class ClipboardManagerViewHandle extends ViewHandle {
 			skipTaskbar: true,
 			alwaysOnTop: true,
 			show: false,
-			webPreferences: {nodeIntegration: true}
+			webPreferences: {nodeIntegration: true},
 		}, path.join(__dirname, './view/View.html'));
 
 		this.addWindowListener('blur', () => this.hide());
@@ -23,6 +23,9 @@ class ClipboardManagerViewHandle extends ViewHandle {
 				this.hide();
 				this.onClose(message);
 				break;
+			case 'squash':
+				this.onSquash(message);
+				break;
 			default:
 				console.error('Unknown window request:', message);
 		}
@@ -32,13 +35,23 @@ class ClipboardManagerViewHandle extends ViewHandle {
 		this.selectListener = selectListener;
 	}
 
-	onClose(request) {
-		if (request.selected && this.selectListener)
-			this.selectListener(request.selected);
+	onClose(message) {
+		if (message.selected && this.selectListener)
+			this.selectListener(message.selected);
 	}
 
 	sendText(text) {
 		this.send({name: 'addText', text});
+	}
+
+	squashFront2() {
+		this.squashPromise = new XPromise();
+		this.send({name: 'squashFront2'});
+		return this.squashPromise;
+	}
+
+	onSquash(message) {
+		this.squashPromise.resolve(message.squashedText);
 	}
 }
 
