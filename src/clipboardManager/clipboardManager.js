@@ -19,9 +19,10 @@ viewHandle.addSelectListener(text => ClipboardListener.paste(text));
 ShortcutListener.add('Control+Shift+V', () => viewHandle.show());
 
 // on ctrl shift c, send clipboardListener to view as incremental copy
-ShortcutListener.add('Control+Shift+C', async () => {
-	keySender.string(keySender.RELEASE, '{control}{shift}c');
+ShortcutListener.add('alt+c', async () => {
+	console.log('append copy');
+	keySender.string(keySender.RELEASE, '{alt}c');
+	// keySender.string(keySender.PRESS, '{control}{shift}');
 	await clipboardListener.copy();
-	keySender.string(keySender.PRESS, '{control}{shift}');
 	clipboard.writeText(await viewHandle.squashFront2());
 });
