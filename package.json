@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "bs-better-stream": "^1.9.0",
-    "googleapis": "^38.0.0",
+    "googleapis": "^39.1.0",
     "js-desktop-base": "^2.3.8"
   },
   "devDependencies": {
