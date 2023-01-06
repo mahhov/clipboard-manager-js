@@ -26,8 +26,6 @@ If these are not available, most of this will still work, except pressing `enter
 
 Type to filter.
 
-`ctrl+shift+c` to append-copy; i.e. append the selected text to the previous clipboard contents.
-
 ## screenshots
 
 ![1-open.png](./screenshots/1-open.png)

@@ -14,9 +14,6 @@ ipc.on('window-command', (_, command) => {
 		case 'addText':
 			texts.addFront(command.text);
 			break;
-		case 'squashFront2':
-			ipcSend({name: 'squash', squashedText: texts.squashFront2()});
-			break;
 		case 'open':
 			texts.searchText = '';
 			texts.selectFirst();

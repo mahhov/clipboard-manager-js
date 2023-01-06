@@ -1,5 +1,5 @@
 const path = require('path');
-const {ViewHandle, XPromise} = require('js-desktop-base');
+const {ViewHandle} = require('js-desktop-base');
 
 class ClipboardManagerViewHandle extends ViewHandle {
 	constructor() {
@@ -23,9 +23,6 @@ class ClipboardManagerViewHandle extends ViewHandle {
 				this.hide();
 				this.onClose(message);
 				break;
-			case 'squash':
-				this.onSquash(message);
-				break;
 			default:
 				console.error('Unknown window request:', message);
 		}
@@ -42,16 +39,6 @@ class ClipboardManagerViewHandle extends ViewHandle {
 
 	sendText(text) {
 		this.send({name: 'addText', text});
-	}
-
-	squashFront2() {
-		this.squashPromise = new XPromise();
-		this.send({name: 'squashFront2'});
-		return this.squashPromise;
-	}
-
-	onSquash(message) {
-		this.squashPromise.resolve(message.squashedText);
 	}
 }
 
