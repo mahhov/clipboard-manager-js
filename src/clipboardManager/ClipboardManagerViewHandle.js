@@ -11,7 +11,7 @@ class ClipboardManagerViewHandle extends ViewHandle {
 			skipTaskbar: true,
 			alwaysOnTop: true,
 			show: false,
-			webPreferences: {nodeIntegration: true},
+			webPreferences: {nodeIntegration: true, contextIsolation: false},
 		}, path.join(__dirname, './view/View.html'));
 
 		this.addWindowListener('blur', () => this.hide());
