@@ -4,8 +4,9 @@
   "main": "src/clipboardManager/clipboardManager.js",
   "scripts": {
     "start": "electron .",
-    "build": "rm -rf dist; electron-builder .",
-    "ship": "git push && electron-builder --win -p always"
+    "build": "rm -rf dist; electron-builder",
+    "ship": "git push && electron-builder --win -p always",
+    "shipLinux": "git push && electron-builder --linux -p always"
   },
   "keywords": [
     "clipboard",
@@ -15,7 +16,7 @@
   "author": "mahhov1",
   "license": "ISC",
   "dependencies": {
-    "js-desktop-base": "^5.2.0"
+    "js-desktop-base": "^5.3.0"
   },
   "devDependencies": {
     "electron": "^22.0.0",
